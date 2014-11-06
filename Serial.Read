@@ -1,0 +1,16 @@
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(4, 5, 10, 11, 12, 13);
+
+void setup() {
+  lcd.begin(16, 2);
+  lcd.cursor();
+  Serial.begin(9600);
+}
+
+void loop() {
+  char word;
+  word = Serial.read();
+  lcd.print (word);
+  delay(200);
+}
