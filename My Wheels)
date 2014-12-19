@@ -1,0 +1,34 @@
+#include "BiWheel.h"
+
+biWheel chassis = biWheel(11,3,9,10);// пины подключения
+
+void setup(){
+  Serial.begin(38400);
+}
+
+void loop(){
+  if (Serial.available()>0){ 
+    char command = Serial.read();
+    switch(command){
+      case 'w':
+        while(Serial.available()==0){
+          chassis.drive(LM,100); 	
+	  chassis.drive(RM,-100);}  // Движение вперёд
+      case 's':
+        while(Serial.available()==0){
+          chassis.drive(LM,-100); 	
+	  chassis.drive(RM,100);}   //Движение назад 
+      case 'a':
+        while(Serial.available()==0){
+          chassis.drive(LM,100); 	
+	  chassis.drive(RM,-100);}  // Цыфры надо настроить на поворотное действие на 90 влево   (знаки должны поменяться)
+      case 'd':
+        while(Serial.available()==0){
+          chassis.drive(LM,100); 	
+	  chassis.drive(RM,-100);}  // Цыфры надо настроить на поворотное действие на 90 вправо   (знаки должны статься)
+      case ' ':
+        while(Serial.available()==0){
+          chassis.drive(LM,0); 	
+	  chassis.drive(RM,0);}     //Остановка движения
+    }
+}
