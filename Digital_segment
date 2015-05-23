@@ -1,0 +1,59 @@
+int mass0[6] = {2,3,4,5,6,7};
+int mass1[2] = {3,4};
+int mass2[5] = {2,3,8,6,5};
+int mass3[5] = {2,3,4,5,8};
+int mass4[4] = {7,8,3,4};
+int mass5[5] = {2,7,8,4,5};
+int mass6[6] = {2,7,8,4,5,6};
+int mass7[3] = {2,3,4};
+int mass8[7] = {2,3,4,5,6,7,8};
+int mass9[6] = {2,3,4,5,7,8};
+
+void swit(char num){
+  for(int i = 0; i<7; i++){
+    switch (num) {
+      case '0':
+        digitalWrite(mass0[i],0);
+        break;
+      case '1':
+        digitalWrite(mass1[i],0);
+        break;
+      case '2':
+        digitalWrite(mass2[i],0);
+        break;
+      case '3':
+        digitalWrite(mass3[i],0);
+        break;
+      case '4':
+        digitalWrite(mass4[i],0);
+        break;
+      case '5':
+        digitalWrite(mass5[i],0);
+        break;
+      case '6':
+        digitalWrite(mass6[i],0);
+        break;
+      case '7':
+        digitalWrite(mass7[i],0);
+        break;
+      case '8':
+        digitalWrite(mass8[i],0);
+        break;
+      case '9':
+        digitalWrite(mass9[i],0);
+        break;
+    }
+  }
+}
+
+void setup() {
+  for(int i=2; i<13 ; i++){
+    pinMode(i,OUTPUT);}
+  Serial.begin(9600);
+}
+
+void loop() {
+  char N;
+  N = Serial.read();
+  swit(N);
+}
