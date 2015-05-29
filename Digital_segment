@@ -1,49 +1,71 @@
-int mass0[6] = {2,3,4,5,6,7};
-int mass1[2] = {3,4};
-int mass2[5] = {2,3,8,6,5};
-int mass3[5] = {2,3,4,5,8};
-int mass4[4] = {7,8,3,4};
-int mass5[5] = {2,7,8,4,5};
-int mass6[6] = {2,7,8,4,5,6};
-int mass7[3] = {2,3,4};
-int mass8[7] = {2,3,4,5,6,7,8};
-int mass9[6] = {2,3,4,5,7,8};
+int fail[][8] = {
+	{0,0,0,0,0,0,1},
+	{1,0,0,1,1,1,1},
+	{0,0,1,0,0,1,0},
+	{0,0,0,0,1,1,0},
+	{1,0,0,1,1,0,0},
+	{0,1,0,0,1,0,0},
+	{0,1,0,0,0,0,0},
+	{0,0,0,1,1,1,1},
+	{0,0,0,0,0,0,0},
+	{0,0,0,0,1,0,0},
+};
+ 
+int positions[][4]={
+	{1,0,0,0},
+	{0,1,0,0},
+	{0,0,1,0},
+	{0,0,0,1}
+};
+ 
+void setup() {
+	for(int i=2;i<=13;i++){
+		pinMode(i,OUTPUT);
+	}
+	for(int n=10;n<=13;n++){
+		digitalWrite(n, 1);
+	}
+	Serial.begin(19200);
+}
 
-void swit(char num){
-  for(int i = 0; i<7; i++){
-    switch (num) {
-      case '0':
-        digitalWrite(mass0[i],0);
-        break;
-      case '1':
-        digitalWrite(mass1[i],0);
-        break;
-      case '2':
-        digitalWrite(mass2[i],0);
-        break;
-      case '3':
-        digitalWrite(mass3[i],0);
-        break;
-      case '4':
-        digitalWrite(mass4[i],0);
-        break;
-      case '5':
-        digitalWrite(mass5[i],0);
-        break;
-      case '6':
-        digitalWrite(mass6[i],0);
-        break;
-      case '7':
-        digitalWrite(mass7[i],0);
-        break;
-      case '8':
-        digitalWrite(mass8[i],0);
-        break;
-      case '9':
-        digitalWrite(mass9[i],0);
-        break;
+int N =0000;
+
+void loop() {
+	if(Serial.available()>0)             //Недоделано
+		int N = Serial.parseInt();
+	progress(N);
+	Serial.println(N);
+	N +=1;
+}
+ 
+void drawDigit(int num){
+    for(int i=0;i<8;i++){
+	    digitalWrite(i+2,fail[num][i]);
     }
-  }
+    delay(2);
+}
+ 
+void selectSymbol(int sym){
+	for(int pos=0;pos<4;pos++){
+		digitalWrite(pos+10,positions[sym][pos]);
+	}
+}
+
+void progress(int number){
+	int N1 = number / 1000;
+	int N2 = (number / 100) % 10;
+	int N3 = (number / 10) % 10;
+	int N4 = number % 10;
+	for(int T = 0; T<250; T++){             //    Создано для измерения секунды из рассчёта, но не работает точно из-за вычесления процессора
+		selectSymbol(0);
+		drawDigit(N1);
+		selectSymbol(1);
+		drawDigit(N2);
+		selectSymbol(2);
+		drawDigit(N3);
+		selectSymbol(3);
+		drawDigit(N4);
+	}
 }
 
 void setup() {
