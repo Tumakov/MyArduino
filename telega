@@ -1,0 +1,47 @@
+#include <t1.h>
+
+T1 telega = T1();
+
+// Константы
+#define START_TIME  1000  // Время до первого старта
+#define FS  200           // Полный ход
+#define RANGE  700        // Датчик линии
+#define DIST  10          // Сонар
+
+void setup(){ 
+  
+	while(!telega.buttonPressed());  // Кнопка
+  
+  while(telega.readSonar() < DIST)
+  telega.drive( 0 , 0 );
+
+  delay(START_TIME);
+
+  startfuction();
+}
+
+void loop(){
+  
+  while(telega.readSonar() < DIST)
+  telega.drive( 0 , 0 );
+  
+  delay(50);
+  
+  while(telega.readSensorL() < RANGE)
+  telega.drive(FS - 70 , FS - 20);         //КОЛЛЕР
+
+  while(telega.readSensorR() < RANGE)
+  telega.drive(FS - 20 , FS - 70);         //КОЛЛЕР
+
+  telega.drive( FS , FS );
+  
+  }
+
+void startfuction(){
+  int i = 0;
+  while(i < FS){
+  i = i + 20;
+  telega.drive( i , i );
+  delay(80);}                               //КОЛЛЕР
+  telega.drive( FS , FS );
+  }
