@@ -3,9 +3,10 @@
 T1 telega = T1();
 
 // Константы
-#define START_TIME  1000  // Время до первого старта
+#define START_TIME  600  // Время до первого старта
 #define FS  200           // Полный ход
-#define RANGE  700        // Датчик линии
+#define L_RANGE  730        // Датчик линии Левый
+#define R_RANGE  686        // Датчик линии Правый
 #define DIST  20          // Сонар
 
 boolean stopandstart;
@@ -27,7 +28,7 @@ void loop(){
   stopandstart = false;
   
   while(telega.readSonar() < DIST){          //для шлагбаума!
-    telega.drive( 0 , 0 );
+    stopfuction();
     stopandstart = true;
   }
 
@@ -36,20 +37,16 @@ void loop(){
 
 ///////////////////////////////////////////////////////////////////////////////
 
-  while(telega.readSonar() < DIST){          //для банки!        (увеличить углы)
-    telega.drive(FS , FS - 100);
-    delay(1000);
-    telega.drive(FS - 100 , FS);
-    delay(1000);
-  }
+/*if(telega.readSonar() < DIST)          //для банки!        (увеличить углы)
+      bankaF(); */
 
   
   
-  while(telega.readSensorL() < RANGE)
-  telega.drive(FS - 70 , FS - 20);         //КОЛЛЕР
-
-  while(telega.readSensorR() < RANGE)
+  while(telega.readSensorL() < L_RANGE)
   telega.drive(FS - 20 , FS - 70);         //КОЛЛЕР
+
+  while(telega.readSensorR() < R_RANGE)
+  telega.drive(FS - 70 , FS - 20);         //КОЛЛЕР
 
   delay(50); 
 
@@ -62,6 +59,26 @@ void startfuction(){
   while(i < FS){
   i = i + 20;
   telega.drive( i , i );
-  delay(20);}                               //КОЛЛЕР
+  delay(20);}
   telega.drive( FS , FS );
   }
+
+void stopfuction(){                          //Остановочка
+  int i = FS;
+  while(i > 0){
+  i = i - 20;
+  telega.drive( i , i );
+  delay(10);}
+  telega.drive( 0 , 0 );
+  }
+
+void bankaF(){                       //Данные к сожелению не точные      (объезд справа)
+  telega.drive(FS - 110, 0);
+  delay(1080);
+    
+  telega.drive(FS - 150, FS);
+  delay(1610);                                     
+
+  telega.drive(FS - 100, 0);
+  delay(1060);
+}
